@@ -1,7 +1,53 @@
 /**
  * A client for interacting with the Alert Logic Search Public API.
  */
-import { ALClient, APIRequestParams } from '@alertlogic/client';
+import { ALClient, APIRequestParams } from '@al/client';
+
+export interface LogMessageSearchResult {
+  fields: {
+    ingest_id: string;
+    message: string;
+    metadata: {
+      create_ts: number;
+      data: string;
+      meta_id: string;
+      uuid: string;
+    }[];
+    pid: number;
+    priority: number;
+    time_recv: number;
+    source_id: string;
+    host_name: string;
+    facility: string;
+    program: string;
+  };
+  id: {
+    account: number;
+    aid: number;
+    msgid: string;
+  };
+}
+
+export interface SubmitSearchResponse {
+  search_uuid: string;
+  search_status: 'suspended' | 'pending' | 'complete' | 'failed';
+  start_ts: number;
+  update_ts: number;
+  status_details: string;
+  progress: number;
+}
+
+export interface FetchSearchResponse extends SubmitSearchResponse {
+  results: LogMessageSearchResult[]; // In the future other message types can be returned, so not just Log Messages
+  next_token?: string;
+  estimated?: number;
+  remaining?: number;
+}
+
+export interface SearchStatusResponse extends SubmitSearchResponse {
+  query: string;
+  search_type: 'batch' | 'interactive' | 'report';
+}
 
 export interface SearchResultsQueryParams {
   limit?: number;
@@ -23,7 +69,7 @@ class SearchClient {
       path: `/search/${dataType}`,
       data: searchQuery,
     });
-    return search;
+    return search as SubmitSearchResponse;
   }
 
   /**
@@ -40,7 +86,7 @@ class SearchClient {
       fetchRequestArgs.params = queryParams;
     }
     const results = await this.alClient.fetch(fetchRequestArgs);
-    return results;
+    return results as FetchSearchResponse;
   }
 
   /**
@@ -72,7 +118,7 @@ class SearchClient {
       path: `/status/${searchId}`,
       ttl: 1,
     });
-    return status;
+    return status as SearchStatusResponse;
   }
 
   /**
