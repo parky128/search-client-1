@@ -1,9 +1,9 @@
-  @alertlogic/search
+  @al/search
 =========
 
 A client for working with the Search Alert Logic API.
 
-This library uses @alertlogic/search as its HTTP provider interface.
+This library uses @al/search as its HTTP provider interface.
 
 ## Disclaimer
 
@@ -11,12 +11,14 @@ Until the release of version 1.0.0 all current minor version increments may be b
 
 ## Installation
 
-      npm install @alertlogic/search --save
+      npm install @al/search --save
 
 ## Usage
 
-      var SearchClient = require('@alertlogic/search').SearchClient; //commonjs - e.g. node
-      import { SearchClient } from '@alertlogic/search'; //ES2015 - e.g. Angular, TS projects  
+      var SearchClient = require('@al/search').SearchClient; //commonjs - e.g. node
+      import { SearchClient } from '@al/search'; //ES2015 - e.g. Angular, TS projects
+  
+  Further usage examples to follow soon
 
 ## Interactive
 

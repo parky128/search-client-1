@@ -1,5 +1,5 @@
 {
-  "name": "@alertlogic/search",
+  "name": "@al/search",
   "version": "0.1.0",
   "license": "MIT",
   "description": "A client for interacting with the Alert Logic Search Public API",
@@ -47,12 +47,9 @@
     "webpack-cli": "^3.2.1"
   },
   "peerDependencies": {
-    "@alertlogic/client": "^0.10.0"
+    "@al/client": "^0.11.0"
   },
   "files": [
     "dist"
-  ],
-  "dependencies": {
-    "@alertlogic/client": "^0.10.0"
-  }
+  ]
 }
