@@ -80,7 +80,7 @@ class SearchClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: `/fetch/${searchId}`,
-      ttl: 1,
+      ttl: 0,
     };
     if (queryParams) {
       fetchRequestArgs.params = queryParams;
@@ -97,7 +97,7 @@ class SearchClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: `/fetch/${searchId}`,
-      ttl: 1,
+      ttl: 0,
       accept_header: 'text/csv',
       response_type: 'blob',
     };
@@ -116,7 +116,7 @@ class SearchClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: `/status/${searchId}`,
-      ttl: 1,
+      ttl: 0,
     });
     return status as SearchStatusResponse;
   }
