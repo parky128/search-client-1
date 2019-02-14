@@ -40,6 +40,7 @@
     "interactive": "node -i -e \"const SearchClient = require('./dist/commonjs/index.js').SearchClient;\""
   },
   "devDependencies": {
+    "peer-deps-externals-webpack-plugin": "^1.0.4",
     "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.2.4",
