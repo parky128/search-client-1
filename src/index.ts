@@ -4,4 +4,5 @@ export {
   SubmitSearchResponse,
   SearchResultsQueryParams,
   SearchStatusResponse,
-  FetchSearchResponse } from './search-client';
+  FetchSearchResponse,
+  ReadLogMessageResponse } from './search-client';

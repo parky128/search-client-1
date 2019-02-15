@@ -21,11 +21,13 @@ export interface LogMessageSearchResult {
     facility: string;
     program: string;
   };
-  id: {
-    account: number;
-    aid: number;
-    msgid: string;
-  };
+  id: LogMessageMetaData;
+}
+
+interface LogMessageMetaData {
+  account: number;
+  aid: number;
+  msgid: string;
 }
 
 export interface SubmitSearchResponse {
@@ -53,6 +55,39 @@ export interface SearchResultsQueryParams {
   limit?: number;
   offset?: number;
   starting_token?: string;
+}
+
+export interface ReadLogMessageResponse {
+  id: LogMessageMetaData;
+  fields: {
+    time_recv: number;
+    hostname: string;
+    facility: string;
+    message: string;
+    parsed: {
+      rule_id: string;
+      rule_name: string;
+      pattern_id: string;
+      tokens: { [key: string]: string };
+    },
+    metadata: {
+      uuid: string;
+      create_ts: number;
+      dict: {
+        hostname: string;
+        public_hostname: string;
+        instance_id: string;
+        ip_addr: string;
+        public_ip_addr: string;
+        os: string;
+        os_version: string;
+        os_arch: string;
+        os_machine: string;
+      }
+    },
+    prioriy: number;
+    program: string;
+  };
 }
 
 class SearchClient {
@@ -139,21 +174,15 @@ class SearchClient {
    * Read Messages
    * Read a set of messages from storage by ID. Proxy for daccess service messages API. Only addition is logmsgs data type messages are also parsed and tokenised
    */
-  async readMessages(accountId: string, messageIds: string[], fieldNames?: string[]) {
-    const dataArgs = {
-      ids: messageIds,
-    };
-    if (fieldNames) {
-      dataArgs['fields'] = fieldNames;
-    }
-    const messages = await this.alClient.post({
+  async readMessages(accountId: string, queryParams: { ids: string, fields?: string }) {
+    const messages = await this.alClient.fetch({
       service_name: this.serviceName,
       account_id: accountId,
       path: '/messages/logmsgs',
-      data: dataArgs,
+      params: queryParams,
     });
-    return messages;
+    return messages as ReadLogMessageResponse[];
   }
 }
 
-export const searchClient =  new SearchClient();
+export const searchClient = new SearchClient();
